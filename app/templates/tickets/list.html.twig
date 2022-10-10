@@ -1,0 +1,21 @@
+ <h1 style="text-align: center">Ticket</h1>
+
+    {% for ticket in tickets %}
+    <table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ ticket.id }}</td>
+        </tr>
+        <tr>
+            <th>Label</th>
+            <td>{{ ticket.label }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ ticket.description }}</td>
+        </tr>
+        </tbody>
+        <br />
+    </table>
+{% endfor %}
