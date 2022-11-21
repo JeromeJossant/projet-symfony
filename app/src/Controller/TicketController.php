@@ -11,14 +11,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[isGranted('ROLE_USER')]
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
+        $request = Request::createFromGlobals();
+        $query = $request->query->get('label');
+
+        //vérification que le nom est pas null
+        if($query != '' && $query != Null) {
+            $tickets = $ticketRepository->findTicketByLabel($query);
+        } else {
+            $tickets = $ticketRepository->findAll();
+        }
         return $this->render('ticket/list.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
+            'tickets' => $tickets
         ]);
     }
 
@@ -68,6 +78,7 @@ class TicketController extends AbstractController
         ]);
     }
 
+    #[isGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
     public function delete(Request $request, Ticket $ticket, TicketRepository $ticketRepository): Response
     {

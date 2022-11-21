@@ -39,6 +39,20 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
+    public function findTicketByLabel(string $label): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT r
+            FROM App\Entity\Ticket r
+            WHERE r.label = :label
+            '
+        )->setParameter('label', $label);
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Ticket[] Returns an array of Ticket objects
 //     */
