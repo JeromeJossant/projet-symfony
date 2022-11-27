@@ -3,23 +3,28 @@
 {% block title %}Ticket index{% endblock %}
 
 {% block body %}
+
     <h1 style="text-align: center">Liste des tickets</h1>
 
     <button type="button" class="btn btn-primary">
         <a style="color: white; text-decoration: none" href="{{ path('app_ticket_new') }}">Créer un nouveau ticket</a>
     </button>
-    <form class="form-inline my-2 my-lg-0" method="get" style="text-align: center">
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_logout') }}">Se déconnecter</a>
+    </button>
+<!--    <form class="form-inline my-2 my-lg-0" method="get" style="text-align: center">
         <input name="name" aria-label="Recherche">
         <button class="btn btn-primary" type="submit">Recherche</button>
-    </form>
+    </form>-->
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Description</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for ticket in tickets %}
@@ -35,9 +40,13 @@
 
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">Modifier</a>
                     </button>
-                        {{ include('ticket/_delete_form.html.twig') }}
 
-                </td>:
+                        <form method="post" action="{{ path('app_ticket_delete', {'id': ticket.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer le ticket ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
+                            <button class="btn btn-primary">Supprimer</button>
+                        </form>
+
+                </td>
             </tr>
         {% else %}
             <tr>
