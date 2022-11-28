@@ -13,6 +13,8 @@
     <button type="button" class="btn btn-primary">
         <a style="color: white;text-decoration: none" href="{{ path('app_logout') }}">Se déconnecter</a>
     </button>
+
+    {{ include('ticket/_flashBag.html.twig') }}
 <!--    <form class="form-inline my-2 my-lg-0" method="get" style="text-align: center">
         <input name="name" aria-label="Recherche">
         <button class="btn btn-primary" type="submit">Recherche</button>
@@ -23,6 +25,7 @@
             <th>Id</th>
             <th>Label</th>
             <th>Description</th>
+            <th>Status</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -32,19 +35,22 @@
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.label }}</td>
                 <td>{{ ticket.description }}</td>
+                <td>{{ ticket.ticketStatus.label }}</td>
                 <td>
                     <button type="button" class="btn btn-primary">
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_show', {'id': ticket.id}) }}">Voir</a>
                     </button>
-                    <button type="button" class="btn btn-primary">
 
+                    {% if user.id == ticket.user.id %}
+                    <button type="button" class="btn btn-primary">
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">Modifier</a>
                     </button>
-
                         <form method="post" action="{{ path('app_ticket_delete', {'id': ticket.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer le ticket ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
                             <button class="btn btn-primary">Supprimer</button>
                         </form>
+                    {% endif %}
+
 
                 </td>
             </tr>

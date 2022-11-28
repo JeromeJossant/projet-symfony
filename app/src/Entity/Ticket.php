@@ -20,6 +20,14 @@ class Ticket
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ticket')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ticket')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TicketStatus $ticketStatus = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +53,30 @@ class Ticket
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTicketStatus(): ?TicketStatus
+    {
+        return $this->ticketStatus;
+    }
+
+    public function setTicketStatus(?TicketStatus $ticketStatus): self
+    {
+        $this->ticketStatus = $ticketStatus;
 
         return $this;
     }

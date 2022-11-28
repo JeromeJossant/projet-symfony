@@ -16,6 +16,9 @@
                         <a style="text-align: start">
                             {{ form_row(form.description) }}
                         </a>
+                        <a>
+                            {{ form_row(form.ticketStatus) }}
+                        </a>
                             <button class="btn btn-lg btn-primary" >{{ button_label|default('Sauvegarder') }}</button>
                         {{ form_end(form) }}
                     </div>
@@ -25,3 +28,4 @@
         </div>
     </div>
 </div>
+

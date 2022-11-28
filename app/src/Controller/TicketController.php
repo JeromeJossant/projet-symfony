@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
-use App\Form\Ticket1Type;
+use App\Form\TicketType;
 use App\Repository\TicketRepository;
+use App\Repository\TicketStatusRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,23 +31,30 @@ class TicketController extends AbstractController
             $tickets = $ticketRepository->findAll();
         }
         return $this->render('ticket/list.html.twig', [
-            'tickets' => $tickets
+            'tickets' => $tickets,
+            'user' => $this->getUser()
         ]);
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TicketRepository $ticketRepository): Response
+    public function new(Request $request, TicketRepository $ticketRepository,TicketStatusRepository $ticketStatusRepository): Response
     {
         $ticket = new Ticket();
-        $form = $this->createForm(Ticket1Type::class, $ticket);
+        $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
+        $ticket->setUser($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $ticketStatus = $ticketStatusRepository->findAll();
+
             $ticketRepository->save($ticket, true);
+
 
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
+        $session = $request->getSession();
+        $session->getFlashBag()->add('success', "ticket ajouté avec succes");
 
         return $this->renderForm('ticket/new.html.twig', [
             'ticket' => $ticket,
@@ -64,7 +73,7 @@ class TicketController extends AbstractController
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ticket $ticket, TicketRepository $ticketRepository): Response
     {
-        $form = $this->createForm(Ticket1Type::class, $ticket);
+        $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,6 +81,9 @@ class TicketController extends AbstractController
 
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        $session = $request->getSession();
+        $session->getFlashBag()->add('success', "ticket modifié avec succes");
 
         return $this->renderForm('ticket/edit.html.twig', [
             'ticket' => $ticket,
@@ -87,7 +99,10 @@ class TicketController extends AbstractController
             $ticketRepository->remove($ticket, true);
         }
 
+        $session = $request->getSession();
+        $session->getFlashBag()->add('danger', "ticket supprimé avec succes");
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+
     }
 
    /* #[Route('/{ticketId}', name: "tickets_show")]
