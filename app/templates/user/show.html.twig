@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_user_index') }}">Retour</a>
+    </button>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+    </button>
+
+{% endblock %}
