@@ -41,13 +41,13 @@
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_show', {'id': ticket.id}) }}">Voir</a>
                     </button>
 
-                    {% if user.id == ticket.user.id %}
+                    {% if user.id == ticket.user.id or is_granted('ROLE_ADMIN')  %}
                     <button type="button" class="btn btn-primary">
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">Modifier</a>
                     </button>
                         <form method="post" action="{{ path('app_ticket_delete', {'id': ticket.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer le ticket ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
-                            <button class="btn btn-primary">Supprimer</button>
+                            <button class="btn btn-danger">Supprimer</button>
                         </form>
                     {% endif %}
 

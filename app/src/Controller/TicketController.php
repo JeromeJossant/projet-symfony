@@ -18,11 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
+
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
         $request = Request::createFromGlobals();
         $query = $request->query->get('label');
+
 
         //vérification que le nom est pas null
         if($query != '' && $query != Null) {
@@ -50,11 +52,11 @@ class TicketController extends AbstractController
 
             $ticketRepository->save($ticket, true);
 
+            $session = $request->getSession();
+            $session->getFlashBag()->add('success', "ticket ajouté avec succes");
 
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
-        $session = $request->getSession();
-        $session->getFlashBag()->add('success', "ticket ajouté avec succes");
 
         return $this->renderForm('ticket/new.html.twig', [
             'ticket' => $ticket,
@@ -73,17 +75,27 @@ class TicketController extends AbstractController
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ticket $ticket, TicketRepository $ticketRepository): Response
     {
-        $form = $this->createForm(TicketType::class, $ticket);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $ticketRepository->save($ticket, true);
-
+        if($ticket->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $session = $request->getSession();
+            $session->getFlashBag()->add('danger', 'Ce ticket ne vous appartient pas !');
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $session = $request->getSession();
-        $session->getFlashBag()->add('success', "ticket modifié avec succes");
+        $form = $this->createForm(TicketType::class, $ticket);
+        $form->handleRequest($request);
+
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $ticketRepository->save($ticket, true);
+
+                $session = $request->getSession();
+                $session->getFlashBag()->add('success', "ticket modifié avec succes");
+
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
+
 
         return $this->renderForm('ticket/edit.html.twig', [
             'ticket' => $ticket,
@@ -95,12 +107,19 @@ class TicketController extends AbstractController
     #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
     public function delete(Request $request, Ticket $ticket, TicketRepository $ticketRepository): Response
     {
+
+        if($ticket->getUser() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            $session = $request->getSession();
+            $session->getFlashBag()->add('danger', 'Ce ticket ne vous appartient pas !');
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
             $ticketRepository->remove($ticket, true);
         }
 
         $session = $request->getSession();
-        $session->getFlashBag()->add('danger', "ticket supprimé avec succes");
+        $session->getFlashBag()->add('success', "ticket supprimé avec succes");
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
 
     }
