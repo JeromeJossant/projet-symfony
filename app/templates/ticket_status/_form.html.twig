@@ -1,0 +1,24 @@
+{#{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}#}
+
+<div class="container" >
+    <div class="row">
+        <div>
+            <div>
+                <div class="card bg-light mb-3 mt-5" style="">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <a style="text-align: start">
+                            {{ form_row(form.label) }}
+                        </a>
+                        <button class="btn btn-lg btn-primary" >{{ button_label|default('Sauvegarder') }}</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

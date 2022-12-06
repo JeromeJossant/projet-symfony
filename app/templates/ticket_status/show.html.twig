@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TicketStatus{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">TicketStatus</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ ticket_status.id }}</td>
+        </tr>
+        <tr>
+            <th>Label</th>
+            <td>{{ ticket_status.label }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_ticket_status_index') }}">Retour</a>
+    </button>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_ticket_status_edit', {'id': ticket_status.id}) }}">Modifier</a>
+    </button>
+
+{% endblock %}

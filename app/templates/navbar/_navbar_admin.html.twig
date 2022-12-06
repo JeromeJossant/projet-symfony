@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Mon site</a>
+    <a class="navbar-brand" href="#">Symfony</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,10 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('app_user_index') }}">User <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ path('app_user_index') }}">User </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_ticket_index') }}">Ticket</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_ticket_status_index') }}">TicketStatus</a>
             </li>
         </ul>
     </div>

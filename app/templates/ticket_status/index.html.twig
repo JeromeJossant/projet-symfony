@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TicketStatus index{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">Liste des ticketStatus</h1>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white; text-decoration: none" href="{{ path('app_ticket_status_new') }}">Créer un nouveau ticketStatus</a>
+    </button>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_logout') }}">Se déconnecter</a>
+    </button>
+
+    {{ include('ticket/_flashBag.html.twig') }}
+    <!--    <form class="form-inline my-2 my-lg-0" method="get" style="text-align: center">
+            <input name="name" aria-label="Recherche">
+            <button class="btn btn-primary" type="submit">Recherche</button>
+        </form>-->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ticket_status in ticket_statuses %}
+            <tr>
+                <td>{{ ticket_status.id }}</td>
+                <td>{{ ticket_status.label }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">
+                        <a style="color: white;text-decoration: none" href="{{ path('app_ticket_status_show', {'id': ticket_status.id}) }}">Voir</a>
+                    </button>
+
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <button type="button" class="btn btn-primary">
+                            <a style="color: white;text-decoration: none" href="{{ path('app_ticket_status_edit', {'id': ticket_status.id}) }}">Modifier</a>
+                        </button>
+                        <form method="post" action="{{ path('app_ticket_status_delete', {'id': ticket_status.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer le ticket ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket_status.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    {% endif %}
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

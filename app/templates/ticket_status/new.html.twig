@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TicketStatus{% endblock %}
+
+{% block body %}
+
+    <div style="text-align: center">
+        <h1>Créer un nouveau ticketStatus</h1>
+
+        {{ include('ticket_status/_form.html.twig') }}
+
+        <button type="button" class="btn btn-primary">
+            <a style="color: white; text-decoration: none" href="{{ path('app_ticket_status_index') }}">Retour à la liste de ticketStatus</a>
+        </button>
+    </div>
+{% endblock %}

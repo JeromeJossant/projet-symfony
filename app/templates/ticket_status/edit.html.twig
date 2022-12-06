@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TicketStatus{% endblock %}
+
+{% block body %}
+
+    <div style="text-align: center">
+        <h1>Modification du ticketStatus</h1>
+
+        {{ include('ticket_status/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        <button type="button" class="btn btn-primary">
+            <a style="color: white; text-decoration: none" href="{{ path('app_ticket_status_index') }}">Retour</a>
+        </button>
+    </div>
+
+{% endblock %}
