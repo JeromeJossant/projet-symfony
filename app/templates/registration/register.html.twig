@@ -18,6 +18,9 @@
                             label: 'Password'
                         }) }}
                         {{ form_row(registrationForm.agreeTerms) }}
+                        <div >
+                            <a style="color: black; text-decoration: none" href="{{ path('app_login') }}">Si vous avez déjà un compte connecter vous ici</a>
+                        </div>
                         <div style="text-align: center">
                             <button type="submit" class="btn btn-lg btn-primary">S'inscrire</button>
                         </div>
