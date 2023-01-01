@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Commentaire{% endblock %}
+
+{% block body %}
+    <div style="text-align: center">
+        <h1>Modification du commentaire</h1>
+
+        {{ include('commentaire/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        <button type="button" class="btn btn-primary">
+            <a style="color: white; text-decoration: none" href="{{ path('app_commentaire_index') }}">Retour</a>
+        </button>
+    </div>
+{% endblock %}

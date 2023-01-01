@@ -20,6 +20,10 @@
                 <td>{{ ticket.description }}</td>
             </tr>
             <tr>
+                <th>Status du ticket</th>
+                <td>{{ ticket.ticketStatus.label }}</td>
+            </tr>
+            <tr>
                 <th>User id</th>
                 <td>{{ ticket.user.id }}</td>
             </tr>
@@ -33,6 +37,7 @@
     <button type="button" class="btn btn-primary">
         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">Modifier</a>
     </button>
+
 
 
 

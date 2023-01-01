@@ -37,6 +37,9 @@ class TicketStatusController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ticketStatusRepository->save($ticketStatus, true);
 
+            $session = $request->getSession();
+            $session->getFlashBag()->add('success', "ticketStatus ajouté avec succes");
+
             return $this->redirectToRoute('app_ticket_status_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -68,6 +71,8 @@ class TicketStatusController extends AbstractController
             $ticketStatusRepository->save($ticketStatus, true);
 
             return $this->redirectToRoute('app_ticket_status_index', [], Response::HTTP_SEE_OTHER);
+            $session = $request->getSession();
+            $session->getFlashBag()->add('success', "ticketStatus modifié avec succes");
         }
 
         return $this->renderForm('ticket_status/edit.html.twig', [
@@ -81,6 +86,9 @@ class TicketStatusController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$ticketStatus->getId(), $request->request->get('_token'))) {
             $ticketStatusRepository->remove($ticketStatus, true);
+
+            $session = $request->getSession();
+            $session->getFlashBag()->add('danger', "ticketStatus supprimé avec succes");
         }
 
         return $this->redirectToRoute('app_ticket_status_index', [], Response::HTTP_SEE_OTHER);

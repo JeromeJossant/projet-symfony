@@ -14,7 +14,7 @@
         <a style="color: white;text-decoration: none" href="{{ path('app_logout') }}">Se déconnecter</a>
     </button>
 
-    {{ include('ticket/_flashBag.html.twig') }}
+    {{ include('notif/flashBag.html.twig') }}
 <!--    <form class="form-inline my-2 my-lg-0" method="get" style="text-align: center">
         <input name="name" aria-label="Recherche">
         <button class="btn btn-primary" type="submit">Recherche</button>
@@ -39,6 +39,13 @@
                 <td>
                     <button type="button" class="btn btn-primary">
                         <a style="color: white;text-decoration: none" href="{{ path('app_ticket_show', {'id': ticket.id}) }}">Voir</a>
+                    </button>
+
+                    <button type="button" class="btn btn-primary">
+                        <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_new', {'id': ticket.id}) }}">Ajouter un commentaire</a>
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_index', {'id': ticket.id}) }}">Voir les commentaire</a>
                     </button>
 
                     {% if user.id == ticket.user.id or is_granted('ROLE_ADMIN')  %}

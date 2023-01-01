@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket index{% endblock %}
+
+{% block body %}
+
+    <h1 style="text-align: center">Liste des commentaires</h1>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_logout') }}">Se déconnecter</a>
+    </button>
+
+    {{ include('notif/flashBag.html.twig') }}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>text</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commentaire in commentaires %}
+            <tr>
+                <td>{{ commentaire.id }}</td>
+                <td>{{ commentaire.text }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">
+                        <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">Voir</a>
+                    </button>
+                        <button type="button" class="btn btn-primary">
+                            <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">Modifier</a>
+                        </button>
+                        <form method="post" action="{{ path('app_commentaire_delete', {'id': commentaire.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer le commentaire ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commentaire.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

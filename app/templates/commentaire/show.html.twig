@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaire{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">Commentaire</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ commentaire.id }}</td>
+        </tr>
+        <tr>
+            <th>text</th>
+            <td>{{ commentaire.text }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_index') }}">Retour</a>
+    </button>
+
+    <button type="button" class="btn btn-primary">
+        <a style="color: white;text-decoration: none" href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">Modifier</a>
+    </button>
+{% endblock %}

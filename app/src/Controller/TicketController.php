@@ -118,7 +118,7 @@ class TicketController extends AbstractController
         }
 
         $session = $request->getSession();
-        $session->getFlashBag()->add('success', "ticket supprimé avec succes");
+        $session->getFlashBag()->add('danger', "ticket supprimé avec succes");
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
 
     }
